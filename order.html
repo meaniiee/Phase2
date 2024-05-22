@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Welcome to Snack&Jam, your go-to cafe for daily events, delicious snacks, and an unforgettable atmosphere.">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Order</title>
+    <style>
+        .error {
+            color: red;
+        }
+
+    </style>
+    <link rel="stylesheet" href="test_style.css">
+</head>
+<body>
+
+     <!-- sidebar -->
+<div class="sidebar">
+    <a href="index.html">Home</a>
+    <a href="reservations.html">Reservations</a>
+    <a href="services.html">Services</a>
+    <a href="contact.html">Contact Us</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="resources.html">Resources</a>
+    <a href="aboutUs.html">About us</a>
+    <a class="active" href="#order">Order</a>
+    
+</div>
+
+    <h1 style="margin-left: 205px;">Order</h1>
+    <form id="reviewForm" style="margin-left: 205px;">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name"><span id="nameError" class="error"></span><br><br>
+        </div>
+
+        <div>
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="tel" id="phoneNumber" name="phoneNumber" pattern="07[0-9]{8}"><span id="phoneNumberError" class="error"></span><br><br>
+        </div>
+
+        <div>
+            <label>Type:</label><br>
+            <input type="radio" id="pickUp" name="type" value="pickUp">
+            <label for="pickUp">Pick Up</label><br>
+            <input type="radio" id="delivery" name="type" value="delivery">
+            <label for="delivery">Delivery</label><br>
+            <span id="typeError" class="error"></span><br><br>
+        </div>
+
+        <div>
+            <label>Checkbox Idea:</label><br>
+            <input type="checkbox" id="bottleOfWater" name="bottleOfWater" value="1">
+            <label for="bottleOfWater">Bottle of water 1JD</label><br>
+            <input type="checkbox" id="spanishLatte" name="spanishLatte" value="4">
+            <label for="spanishLatte">Spanish Latte 4JDS</label><br>
+            <span id="checkboxError" class="error"></span><br><br>
+        </div>
+
+        <div>
+            <label for="calculation">Check:</label>
+            <input type="number" id="calculation" name="calculation" readonly><br><br>
+        </div>
+
+        <div>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+
+    <hr>
+
+    <h2 style="margin-left: 205px;">Check</h2>
+    <textarea id="reviewSummary" rows="6" cols="50" readonly style="margin-left: 205px;"></textarea>
+
+    <script>
+        document.getElementById('reviewForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var name = document.getElementById('name').value.trim();
+            var phoneNumber = document.getElementById('phoneNumber').value.trim();
+            var type = document.querySelector('input[name="type"]:checked');
+            var bottleOfWater = document.getElementById('bottleOfWater').checked;
+            var spanishLatte = document.getElementById('spanishLatte').checked;
+
+            var nameError = document.getElementById('nameError');
+            var phoneNumberError = document.getElementById('phoneNumberError');
+            var typeError = document.getElementById('typeError');
+            var checkboxError = document.getElementById('checkboxError');
+
+            var isValid = true;
+
+            if (name === '') {
+                nameError.textContent = 'Name is required';
+                isValid = false;
+            } else {
+                nameError.textContent = '';
+            }
+
+            if (!phoneNumber.match(/^07[0-9]{8}$/)) {
+                phoneNumberError.textContent = 'Invalid phone number';
+                isValid = false;
+            } else {
+                phoneNumberError.textContent = '';
+            }
+
+            if (!type) {
+                typeError.textContent = 'Please select a type';
+                isValid = false;
+            } else {
+                typeError.textContent = '';
+            }
+
+            if (!bottleOfWater && !spanishLatte) {
+                checkboxError.textContent = 'Please select at least one option';
+                isValid = false;
+            } else {
+                checkboxError.textContent = '';
+            }
+
+            if (isValid) {
+                var typeValue = type ? type.value : '';
+                var total = (bottleOfWater ? 1 : 0) + (spanishLatte ? 4 : 0);
+
+                var reviewSummary = `Name: ${name}\nPhone Number: ${phoneNumber}\nType: ${typeValue}\nOrder: ${bottleOfWater ? 'Bottle of water 1JD' : ''}, ${spanishLatte ? 'Spanish Latte 4JDs' : ''}\nCheck: ${total}JDs`;
+                document.getElementById('reviewSummary').value = reviewSummary;
+                document.getElementById('calculation').value = total;
+            }
+        });
+    </script>
+
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
